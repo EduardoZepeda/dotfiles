@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install codium (https://vscodium.com/)
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# install codium if not already installed
+if command -v codium >/dev/null 2>&1; then
+  echo "codium is already installed"
+else
+  echo "codium binary not found, installing..."
+  # install codium
+    wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
+        | gpg --dearmor \
+        | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
+    echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
+        | sudo tee /etc/apt/sources.list.d/vscodium.list
+    sudo apt update && sudo apt install codium
+fi
+
+{{end}}
+

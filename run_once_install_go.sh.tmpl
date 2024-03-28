@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install go (https://go.dev/doc/install)
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+$current_go_version="https://go.dev/dl/go1.22.1.linux-amd64.tar.gz"
+$go_installer="go1.22.1.linux-amd64.tar.gz"
+
+# install go if not already installed
+if command -v go >/dev/null 2>&1; then
+  echo "go is already installed"
+else
+  echo "go binary not found, installing..."
+  # install go
+  echo "Downloading go from $current_go_version"
+  wget $current_go_version
+  echo "Deleting old versions of go"
+  rm -rf /usr/local/go && tar -C /usr/local -xzf $go_installer"
+  echo "Deleting installer"
+  rm $go_installer
+fi
+
+{{end}}

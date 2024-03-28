@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install bun (https://bun.sh/)
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# install bun if not already installed
+if command -v bun >/dev/null 2>&1; then
+  echo "bun is already installed"
+else
+  echo "bun binary not found, installing..."
+  # install bun
+  curl -fsSL https://bun.sh/install | bash
+fi
+
+{{end}}
+
+

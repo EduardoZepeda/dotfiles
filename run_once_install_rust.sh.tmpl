@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install rustup (https://rustup.rs/)
+#==============================================================================
+
+readonly RUSTUP_INSTALLER="/tmp/install_rustup.sh"
+readonly RUSTUP_URL="https://sh.rustup.rs"
+export CARGO_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/cargo"
+export RUSTUP_HOME="${XDG_DATA_HOME:-$HOME/.local/share}/rustup"
+
+
+install_rustup() {
+  # install rustup if not already installed
+  if command -v rustup >/dev/null 2>&1; then
+    echo "rustup is already installed"
+    exit
+  fi
+  echo "rustup binary not found, installing..."
+  # install rustup
+  curl --proto '=https' --tlsv1.2 -sSf "$1" -o "$2" || exit
+  sh "$2" -y --no-modify-path || exit
+  rm "$2"
+}
+
+install_rustup "$RUSTUP_URL" "$RUSTUP_INSTALLER"
+
+source "$CARGO_HOME/env"
+
+export PATH="${XDG_DATA_HOME:-$HOME/.local/share}/cargo/bin:$PATH" &&
+
+rustup override set stable
+rustup update stable
