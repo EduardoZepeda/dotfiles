@@ -7,9 +7,9 @@
 #!/bin/bash
 
 # install pip if not already installed
-if command -v pip >/dev/null 2>&1; then
-  echo "Installing pip packages"
-  pip install yt-dlp
+if command -v pipx >/dev/null 2>&1; then
+  echo "Installing pipx packages"
+  pipx install yt-dlp -y
 else
-  echo "pip not found, skipping..."
+  echo "pipx not found, skipping..."
 fi
