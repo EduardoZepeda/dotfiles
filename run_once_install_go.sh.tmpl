@@ -18,7 +18,7 @@ else
   echo "Downloading go from $current_go_version"
   wget "$current_go_version"
   echo "Deleting old versions of go"
-  rm -rf /usr/local/go && tar -C /usr/local -xzf "$go_installer"
+  sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf "$go_installer"
   echo "Deleting installer"
   rm "$go_installer"
 fi
