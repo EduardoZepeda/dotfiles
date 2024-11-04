@@ -10,18 +10,27 @@ On a new fresh Linux installation (Debian should work) run the following command
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 ```
 
+Alternatively, if you already installed chezmoi, you can just run
+
+``` bash
+chezmoi update
+```
+
 This should install all packages without all the hassle of doing it manually. 
 
 ## Packages installed
 
-- Bun
-- Codium
-- Docker
-- Go
-- Kubernetes
-- Nerdfonts
-- Noisetorch
-- NVM
-- Multiple packages
-- Rust
-- Zsh
+| Installed               | Description                                         |
+| ----------------------- | --------------------------------------------------- |
+| Bun                     | Ultra fast javascript runtime                       |
+| Codium                  | Free/Libre Open Source Software Binaries of VS Code |
+| Docker                  | Default software containers                         |
+| Go                      | The ultimate get shit done language, fast enough    |
+| Kubernetes              | Container orchestration                             |
+| Nerdfonts               | Lots of fonts                                       |
+| Noisetorch              | Noise reduction for your microphone                 |
+| NVM                     | Node version manager                                |
+| Multiple packages       | Random stuff                                        |
+| Pip (And some packages) | Python package manager                              |
+| Rust                    | Some serious programming language                   |
+| Zsh                     | My favorite shell                                   |

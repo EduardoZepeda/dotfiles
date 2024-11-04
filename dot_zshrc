@@ -135,6 +135,7 @@ esac
 alias docker-clean-images="docker rmi $(docker images -a --filter=dangling=true -q)"
 alias docker-clean-ps="docker rm $(docker ps --filter=status=exited --filter=status=created -q)"
 alias docker-clean-all="docker kill $(docker ps -q);docker_clean_ps;docker rmi $(docker images -a -q)"
+alias get-linux="ls -1 /boot/vmlinuz-*"
 alias vscode="codium"
 alias openzs="open ~/.zshrc"
 alias sourcezs="source ~/.zshrc"
@@ -145,6 +146,9 @@ alias k="kubectl"
 alias mk="minikube"
 alias mount-data="sudo cryptsetup luksOpen /dev/sda5 data && sudo mount /dev/mapper/data /home/eduardo/data/"
 alias convert-png-to-jpg="mogrify -format jpg *.png"
+alias stack-imgs-vert="convert -append *.jpg stacked-image.jpg"
+alias stack-imgs-hori="convert +append *.jpg stacked-image.jpg"
+alias obs="flatpak run com.obsproject.Studio"
 
 #################################
 # Variables
@@ -174,12 +178,27 @@ square-image() {
 }
 
 subtitle() {
-    ffmpeg $1 -vf "subtitles=$2" $3
+    ffmpeg -i $1 -vf "subtitles=$2" $3
 }
 
 resize-to() {
     mogrify -resize $1x *.*
 }
+
+convert-wav-to-mp3() {
+    ffmpeg -i $1 -vn -ar 44100 -ac 2 -b:a 192k $2
+}
+
+subtitle-center() {
+	ffmpeg -i $1 -vf "subtitles=$2:force_style='Fontsize=12,Alignment=10,Outline=0,BorderStyle=4,BackColour=&H30000000,PrimaryColour=&HFFFFFF'" $3
+}
+
+subtitle-center-ass() {
+	ffmpeg -i $1 -vf "subtitles=$2" $3
+}
+
+
+
 source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
 source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
 
@@ -209,3 +228,6 @@ eval "$(pyenv virtualenv-init -)"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+. "$HOME/.cargo/env"
+. "/home/eduardo/.deno/env"

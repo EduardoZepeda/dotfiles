@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# Installing pip
+#==============================================================================
+
+#!/bin/bash
+
+# install pip if not already installed
+if command -v pip >/dev/null 2>&1; then
+  echo "pip already installed"
+else
+  echo "pip not found, installing..."
+  python -m ensurepip --upgrade
+
