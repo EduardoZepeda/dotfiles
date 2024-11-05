@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#==============================================================================
+# Install prerequisites
+#==============================================================================
+
+set -eu
+
+# Install curl if it's not already installed
+if ! command -v curl >/dev/null; then
+  sudo apt update
+  sudo apt install -y curl
+fi
+
+# Install wget if it's not already installed
+if ! command -v wget >/dev/null; then
+  sudo apt update
+  sudo apt install -y wget
+fi
+
+# Install sudo if it's not already installed
+if ! command -v sudo &> /dev/null
+then
+    echo "Installing sudo"
+    apt update && apt install sudo apt-utils
+fi
