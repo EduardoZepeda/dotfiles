@@ -197,10 +197,102 @@ subtitle-center-ass() {
 	ffmpeg -i $1 -vf "subtitles=$2" $3
 }
 
+convert-to-webp() {
+	for file in *.jpg; do cwebp $file -o $file.webp; done;
+	for file in *.png; do cwebp $file -o $file.webp; done;
+}
 
+subtitle-lower-yellow() {
+	ffmpeg -i $1 -vf "subtitles=$2:force_style='FontName=UKIJ Chechek,Fontsize=16,PrimaryColour=&H00FFFF&,OutlineColour=&H000000&,Outline=2,Alignment=2,MarginV=80'" -c:v libx264 -crf 23 -preset medium -c:a copy $3
+}
 
-source '/home/$USER/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
-source '/home/$USER/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
+resize-video-to-mb() {
+	# Usage: ./resize_video.sh input_video target_size_mb
+	# Example: ./resize_video.sh input.mp4 10
+
+	# Get input parameters
+	input_file="$1"
+	target_size_mb="$2"
+
+	if [ -z "$input_file" ] || [ -z "$target_size_mb" ]; then
+	    echo "Usage: $0 input_video target_size_mb"
+	    exit 1
+	fi
+
+	# Check if input file exists
+	if [ ! -f "$input_file" ]; then
+	    echo "Input file does not exist: $input_file"
+	    exit 1
+	fi
+
+	# Get file extension
+	extension="${input_file##*.}"
+	filename="${input_file%.*}"
+	output_file="${filename}_${target_size_mb}mb.${extension}"
+
+	# Calculate target size in bits (1 MB = 8,000,000 bits, accounting for some overhead)
+	target_size_bits=$((target_size_mb * 8000000))
+
+	# Get video duration in seconds
+	duration=$(ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "$input_file")
+	duration=$(printf "%.0f" "$duration")
+
+	# Calculate target bitrate (bits per second)
+	target_bitrate=$((target_size_bits / duration))
+
+	# Calculate audio bitrate (assuming 128k audio, adjust as needed)
+	audio_bitrate=128000
+
+	# Adjust video bitrate to account for audio
+	video_bitrate=$((target_bitrate - audio_bitrate))
+
+	# Ensure video bitrate doesn't go too low
+	if [ $video_bitrate -lt 100000 ]; then
+	    echo "Warning: Target size may be too small for this video length. Using minimum bitrate."
+	    video_bitrate=100000
+	fi
+
+	echo "Processing video to target size of $target_size_mb MB..."
+	echo "Video bitrate: $((video_bitrate / 1000)) kbps"
+	echo "Audio bitrate: $((audio_bitrate / 1000)) kbps"
+
+	# Create a temporary directory for pass logfiles
+	mkdir -p /tmp/ffmpeg2pass
+
+	# Perform the conversion with improved settings
+	ffmpeg -y -i "$input_file" -c:v libx264 -b:v "$video_bitrate" -maxrate "$((video_bitrate * 2))" \
+	    -bufsize "$((video_bitrate * 4))" -preset medium -pass 1 -an \
+	    -f null -passlogfile /tmp/ffmpeg2pass/passlog /dev/null
+
+	if [ $? -ne 0 ]; then
+	    echo "First pass failed!"
+	    rm -rf /tmp/ffmpeg2pass
+	    exit 1
+	fi
+
+	ffmpeg -y -i "$input_file" -c:v libx264 -b:v "$video_bitrate" -maxrate "$((video_bitrate * 2))" \
+	    -bufsize "$((video_bitrate * 4))" -preset medium -pass 2 \
+	    -c:a aac -b:a "$audio_bitrate" -passlogfile /tmp/ffmpeg2pass/passlog \
+	    -movflags +faststart "$output_file"
+
+	if [ $? -ne 0 ]; then
+	    echo "Second pass failed!"
+	    rm -rf /tmp/ffmpeg2pass
+	    exit 1
+	fi
+
+	# Clean up temporary files
+	rm -rf /tmp/ffmpeg2pass
+
+	# Verify final size
+	final_size=$(du -m "$output_file" | cut -f1)
+	echo "Final file size: $final_size MB (target was $target_size_mb MB)"
+
+}
+ 
+
+source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
+source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
 
 #################################
 # plugins                       
