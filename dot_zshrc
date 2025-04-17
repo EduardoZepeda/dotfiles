@@ -154,14 +154,14 @@ alias obs="flatpak run com.obsproject.Studio"
 # Variables
 #################################
 
-export PATH="$PATH:/usr/local/go/bin"
-export FLYCTL_INSTALL="/home/$USER/.fly"
+export PATH="/usr/local/go/bin:$PATH"
+export FLYCTL_INSTALL="/home/eduardo/.fly"
 export PATH="$FLYCTL_INSTALL/bin:$PATH"
 export GOPATH="$HOME/go"
-export PATH="$PATH:$GOPATH/bin"
-export DENO_INSTALL="/home/$USER/.deno"
+export PATH="$GOPATH/bin:$PATH"
+export DENO_INSTALL="/home/eduardo/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
-export PATH="/home/$USER/.codon/bin:$PATH"
+export PATH="/home/eduardo/.codon/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin $PATH"
 
