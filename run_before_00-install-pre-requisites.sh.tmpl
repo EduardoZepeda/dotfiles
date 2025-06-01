@@ -18,6 +18,12 @@ if ! command -v wget >/dev/null; then
   sudo apt install -y wget
 fi
 
+# Install git if it's not already installed
+if ! command -v git >/dev/null; then
+  sudo apt update
+  sudo apt install -y git
+fi
+
 # Install sudo if it's not already installed
 if ! command -v sudo &> /dev/null
 then

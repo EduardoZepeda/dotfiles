@@ -41,6 +41,6 @@ add_apt_source "$DOCKER_SOURCE" "$DOCKER_CONTENT"
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-USER=whoami
+USER=$(whoami)
 echo "Adding current user to docker group"
 sudo usermod -aG docker $USER
