@@ -173,10 +173,6 @@ clean-audio() {
     ffmpeg -i $1 -af "highpass=f=200, lowpass=f=3000" $2
 }
 
-square-image() {
-    convert $1 -resize 1420x1080 -background black -gravity center -extent 1420x1420 $2
-}
-
 subtitle() {
     ffmpeg -i $1 -vf "subtitles=$2" $3
 }
@@ -207,6 +203,8 @@ subtitle-lower-yellow() {
 }
 
 resize-video-to-mb() {
+	#!/bin/bash
+
 	# Usage: ./resize_video.sh input_video target_size_mb
 	# Example: ./resize_video.sh input.mp4 10
 
@@ -289,10 +287,6 @@ resize-video-to-mb() {
 	echo "Final file size: $final_size MB (target was $target_size_mb MB)"
 
 }
- 
-
-source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
-source '/home/eduardo/.nvm/versions/node/v18.17.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
 
 #################################
 # plugins                       
@@ -321,5 +315,3 @@ eval "$(pyenv virtualenv-init -)"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-. "$HOME/.cargo/env"
-. "/home/$USER/.deno/env"
