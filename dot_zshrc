@@ -186,16 +186,24 @@ convert-wav-to-mp3() {
 }
 
 subtitle-center() {
-	ffmpeg -i $1 -vf "subtitles=$2:force_style='Fontsize=12,Alignment=10,Outline=0,BorderStyle=4,BackColour=&H30000000,PrimaryColour=&HFFFFFF'" $3
+	ffmpeg -i $1 -vf "subtitles=$2:force_style='FontName=UKIJ Chechek,Fontsize=28,PrimaryColour=&H00FFFF&,OutlineColour=&H000000&,Outline=2,Alignment=10,MarginV=80'" -c:v libx264 -crf 23 -preset medium -c:a copy $3
 }
 
 subtitle-center-ass() {
 	ffmpeg -i $1 -vf "subtitles=$2" $3
 }
 
+convert-webm-to-mp4() {
+	ffmpeg -i $1 -qscale 0  -vf "scale=trunc(iw/2)*2:trunc(ih/2)*2" $2
+}
+
 convert-to-webp() {
 	for file in *.jpg; do cwebp $file -o $file.webp; done;
 	for file in *.png; do cwebp $file -o $file.webp; done;
+}
+
+convert-h264-to-h265() {
+	ffmpeg -i $1 -c:v libx265 -vtag hvc1 $2
 }
 
 subtitle-lower-yellow() {
