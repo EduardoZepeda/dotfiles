@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# Installing flatpack packages
+#==============================================================================
+
+#!/bin/bash
+
+echo "Installing/Updating Flatpaks..."
+cat <<EOF | xargs flatpak install -y flathub
+com.discordapp.Discord
+com.github.AmatCoder.mednaffe
+com.github.tenderowl.frog
+com.spotify.Client
+io.github.seadve.Kooha
+org.aegisub.Aegisub
+org.gimp.GIMP.HEIC
+org.shotcut.Shotcut
+EOF
+
+
