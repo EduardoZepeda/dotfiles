@@ -7,13 +7,18 @@
 #!/bin/bash
 
 echo "Installing/Updating Flatpaks..."
-cat <<EOF | xargs flatpak install -y flathub
+cat <<EOF | xargs flatpak install --user -y flathub
 com.discordapp.Discord
 com.github.AmatCoder.mednaffe
 com.github.tenderowl.frog
 com.spotify.Client
 io.github.seadve.Kooha
 org.aegisub.Aegisub
+org.gimp.GIMP
 org.gimp.GIMP.HEIC
 org.shotcut.Shotcut
+com.obsproject.Studio
+net.pcsx2.PCSX2
+org.freedesktop.LinuxAudio.Plugins.swh
+org.sqlitebrowser.sqlitebrowser
 EOF
