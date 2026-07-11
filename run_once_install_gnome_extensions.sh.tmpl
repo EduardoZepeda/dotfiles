@@ -4,7 +4,9 @@
 # install gnome extensions 
 #==============================================================================
 
-{{ if eq .chezmoi.os "linux" -}}
+{{- $isGnome := eq (env "XDG_CURRENT_DESKTOP") "GNOME" -}}
+{{- if $isGnome }}
+# GNOME specific configuration here
 
 # Path to your backed-up files inside the chezmoi source directory
 BACKUP_DIR="{{ .chezmoi.sourceDir }}/gnome_extensions"
