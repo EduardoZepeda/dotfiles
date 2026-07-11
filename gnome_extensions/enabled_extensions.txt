@@ -1,0 +1,6 @@
+openweather-extension@jenslody.de
+Vitals@CoreCoding.com
+color-picker@tuberry
+clipboard-indicator@tudmotu.com
+caffeine@patapon.info
+gsconnect@andyholmes.github.io

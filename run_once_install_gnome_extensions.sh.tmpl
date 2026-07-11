@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install gnome extensions 
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# Path to your backed-up files inside the chezmoi source directory
+BACKUP_DIR="{{ .chezmoi.sourceDir }}/gnome_extensions"
+
+# Exit early if the backup directory doesn't exist yet
+if [ ! -d "$BACKUP_DIR" ]; then
+    echo "No GNOME extension backups found to restore."
+    exit 0
+fi
+
+echo "Restoring GNOME extension settings..."
+
+# 1. Enable the extensions listed in your backup file
+if [ -f "$BACKUP_DIR/enabled_extensions.txt" ]; then
+    while read -r extension; do
+        # Skip empty lines
+        [ -z "$extension" ] && continue
+        
+        echo "Enabling extension: $extension"
+        gnome-extensions enable "$extension" 2>/dev/null
+        
+        # 2. Find the matching configuration file and load it via dconf
+        safe_name=$(echo "$extension" | tr '@.' '-')
+        conf_file="$BACKUP_DIR/$safe_name.conf"
+        
+        if [ -f "$conf_file" ]; then
+            echo "Loading settings for: $extension"
+            dconf load "/org/gnome/shell/extensions/$extension/" < "$conf_file"
+        fi
+    done < "$BACKUP_DIR/enabled_extensions.txt"
+fi
+
+echo "GNOME extensions restore complete!"
+
+{{end}}
