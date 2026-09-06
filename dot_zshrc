@@ -198,8 +198,7 @@ convert-webm-to-mp4() {
 }
 
 convert-to-webp() {
-	for file in *.jpg; do cwebp $file -o $file.webp; done;
-	for file in *.png; do cwebp $file -o $file.webp; done;
+	for f in $(find . -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \)); do cwebp -q 85 "$f" -o "${f%.*}.webp"; done
 }
 
 convert-h264-to-h265() {
