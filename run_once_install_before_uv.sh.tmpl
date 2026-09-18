@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install uv (https://docs.astral.sh/uv/getting-started/installation/)
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# install uv if not already installed
+if command -v uv >/dev/null 2>&1; then
+  echo "uv is already installed"
+else
+  echo "uv binary not found, installing..."
+  # install uv
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+{{end}}
