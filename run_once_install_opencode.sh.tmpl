@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+#==============================================================================
+# install opencode (https://opencode.ai/download)
+#==============================================================================
+
+{{ if eq .chezmoi.os "linux" -}}
+
+# install opencode if not already installed
+if command -v opencode >/dev/null 2>&1; then
+  echo "opencode is already installed"
+else
+  echo "opencode binary not found, installing..."
+  # install opencode
+  curl -fsSL https://opencode.ai/install | bash
+fi
+
+{{end}}
