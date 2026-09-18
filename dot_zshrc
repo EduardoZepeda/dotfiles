@@ -113,11 +113,6 @@ source $ZSH/oh-my-zsh.sh
 export NVM_DIR=~/.nvm
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-## Pyenv 
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
 
 # pnpm
 export PNPM_HOME="/Users/pit/Library/pnpm"
@@ -305,15 +300,10 @@ plugins=(
     autoenv
     colorize
     python
-    pyenv
-    pyenv-virtualenv
     zsh-syntax-highlighting
     zsh-interactive-cd
     zsh-autosuggestions
     )
-
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
 
 # bun completions
 [ -s "/home/$USER/.bun/_bun" ] && source "/home/$USER/.bun/_bun"
